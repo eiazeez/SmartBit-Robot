@@ -10,9 +10,82 @@ Deve iniciar o cadastro do cliente
 
     ${account}    Get Fake Account
 
+    Start session
+    Submit signup form    ${account}
+
+    Wait For Elements State
+    ...    text=Falta pouco para fazer parte da família Smartbit!
+    ...    visible    5
+
+Campo nome deve ser obrigatório
+    [Tags]    required
+
+    ${account}    Create Dictionary
+    ...            name=${EMPTY}
+    ...            email=azeez@azcode.com
+    ...            cpf=72885892005
+
+    Start session
+    Submit signup form    ${account}
+    Notice should be   Por favor informe o seu nome completo
+
+Campo email deve ser obrigatório
+    [Tags]    required
+
+   ${account}    Create Dictionary
+    ...            name=Azeez
+    ...            email=${EMPTY}
+    ...            cpf=72885892005
+
+    Start session
+    Submit signup form    ${account}
+    Notice should be    Por favor, informe o seu melhor e-mail
+
+Campo cpf deve ser obrigatório
+    [Tags]    required
+
+    ${account}    Create Dictionary
+    ...            name=Azeez
+    ...            email=azeez@azcode.com
+    ...            cpf=${EMPTY}
+
+    Start session
+    Submit signup form    ${account}
+    Notice should be    Por favor, informe o seu CPF
+
+Email no formato inválido
+    [Tags]    inv
+
+    ${account}    Create Dictionary
+    ...            name=Isaac Douglas
+    ...            email=mail2mail.com
+    ...            cpf=60521415063
+
+    Start session
+    Submit signup form    ${account}
+    Notice should be    Oops! O email informado é inválido
+
+Cpf no formato inválido
+    [Tags]    inv
+
+    ${account}    Create Dictionary
+    ...            name=Isaac Douglas
+    ...            email=mail@mail.com
+    ...            cpf=12345678912
+
+    Start session
+    Submit signup form    ${account}
+    Notice should be    Oops! O CPF informado é inválido
+
+*** Keywords ***
+Start session
+
     New Browser    browser=chromium    headless=false
     New Page    http://localhost:3000/ 
 
+Submit signup form
+    [Arguments]    ${account}
+    
     Get Text    css=#signup h2
     ...    equal
     ...    Faça seu cadastro e venha para a Smartbit!
@@ -23,133 +96,16 @@ Deve iniciar o cadastro do cliente
 
     Click    css=button >> text=Cadastrar
 
-    Wait For Elements State
-    ...    text=Falta pouco para fazer parte da família Smartbit!
-    ...    visible    5
+Notice should be
+    [Arguments]    ${target}
 
-Campo nome deve ser obrigatório
-    [Tags]    required
-
-    ${account}    Get Fake Account
-
-    New Browser    browser=chromium    headless=false
-    New Page    http://localhost:3000/ 
-
-    Get Text    css=#signup h2
-    ...    equal
-    ...    Faça seu cadastro e venha para a Smartbit!
-
-    Click    css=button >> text=Cadastrar
+    ${element}    Set Variable    css=#signup .notice   
 
     Wait For Elements State
-    ...    css=#signup .notice
+    ...    ${element}
     ...    visible    5
-    
+
     Get Text    
-    ...    css=#signup .notice  
-    ...    equal    Por favor informe o seu nome completo
-
-Campo email deve ser obrigatório
-    [Tags]    required
-
-    ${account}    Get Fake Account
-
-    New Browser    browser=chromium    headless=false
-    New Page    http://localhost:3000/ 
-
-    Get Text    css=#signup h2
-    ...    equal
-    ...    Faça seu cadastro e venha para a Smartbit!
+    ...    ${element}
+    ...    equal    ${target}
     
-    Fill Text    id=name        Isaac Douglas
-    Fill Text    id=cpf    60521415063
-
-    Click    css=button >> text=Cadastrar
-
-    Wait For Elements State
-    ...    css=#signup .notice
-    ...    visible    5
-    
-    Get Text    
-    ...    css=#signup .notice  
-    ...    equal    Por favor, informe o seu melhor e-mail
-
-Campo cpf deve ser obrigatório
-    [Tags]    required
-
-    ${account}    Get Fake Account
-
-    New Browser    browser=chromium    headless=false
-    New Page    http://localhost:3000/ 
-
-    Get Text    css=#signup h2
-    ...    equal
-    ...    Faça seu cadastro e venha para a Smartbit!
-    
-    Fill Text    id=name        Isaac Douglas
-    Fill Text    id=email       mail@mail.com
-
-    Click    css=button >> text=Cadastrar
-
-    Wait For Elements State
-    ...    css=#signup .notice
-    ...    visible    5
-    
-    Get Text    
-    ...    css=#signup .notice  
-    ...    equal    Por favor, informe o seu CPF
-
-Email no formato inválido
-    [Tags]    inv
-
-    ${account}    Get Fake Account
-
-    New Browser    browser=chromium    headless=false
-    New Page    http://localhost:3000/ 
-
-    Get Text    css=#signup h2
-    ...    equal
-    ...    Faça seu cadastro e venha para a Smartbit!
-    
-    Fill Text    id=name        Isaac Douglas
-    Fill Text    id=email       mail2mail.com
-    Fill Text    id=cpf    60521415063
-
-    Click    css=button >> text=Cadastrar
-
-    Wait For Elements State
-    ...    css=#signup .notice
-    ...    visible    5
-    
-    Get Text    
-    ...    css=#signup .notice  
-    ...    equal    Oops! O email informado é inválido
-
-Cpf no formato inválido
-    [Tags]    inv
-
-    ${account}    Get Fake Account
-
-    New Browser    browser=chromium    headless=false
-    New Page    http://localhost:3000/ 
-
-    Get Text    css=#signup h2
-    ...    equal
-    ...    Faça seu cadastro e venha para a Smartbit!
-    
-    Fill Text    id=name        Isaac Douglas
-    Fill Text    id=email       mail@mail.com
-    Fill Text    id=cpf    12345678912
-
-    Click    css=button >> text=Cadastrar
-
-    Wait For Elements State
-    ...    css=#signup .notice
-    ...    visible    5
-    
-    Get Text    
-    ...    css=#signup .notice  
-    ...    equal    Oops! O CPF informado é inválido
-
-
-
