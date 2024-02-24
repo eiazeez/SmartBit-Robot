@@ -1,111 +1,45 @@
 *** Settings ***
 Documentation    Cenários de testes de pré-cadastro de clientes
 
-Library         Browser
+Resource        ../resources/Base.resource
+Resource    ../resources/pages/Welcome.resource
 
-Resource        ../resources/base.resource
+Test Setup            Start session
+Test Teardown         Take Screenshot
 
 *** Test Cases ***
 Deve iniciar o cadastro do cliente
-
-    ${account}    Get Fake Account
-
-    Start session
-    Submit signup form    ${account}
-
-    Wait For Elements State
-    ...    text=Falta pouco para fazer parte da família Smartbit!
-    ...    visible    5
-
-Campo nome deve ser obrigatório
-    [Tags]    required
+    [Tags]    smoke
 
     ${account}    Create Dictionary
-    ...            name=${EMPTY}
-    ...            email=azeez@azcode.com
-    ...            cpf=72885892005
+    ...           name=Azeez Testes
+    ...           email=azeez@mail.com
+    ...           cpf=06097411871
 
-    Start session
+    Delete Account By Email    ${account}[email]
+
     Submit signup form    ${account}
-    Notice should be   Por favor informe o seu nome completo
+    Verify welcome message
 
-Campo email deve ser obrigatório
-    [Tags]    required
 
-   ${account}    Create Dictionary
-    ...            name=Azeez
-    ...            email=${EMPTY}
-    ...            cpf=72885892005
+Tentativa de pré-cadastro
+    [Template]    Attempt signup
 
-    Start session
-    Submit signup form    ${account}
-    Notice should be    Por favor, informe o seu melhor e-mail
-
-Campo cpf deve ser obrigatório
-    [Tags]    required
-
-    ${account}    Create Dictionary
-    ...            name=Azeez
-    ...            email=azeez@azcode.com
-    ...            cpf=${EMPTY}
-
-    Start session
-    Submit signup form    ${account}
-    Notice should be    Por favor, informe o seu CPF
-
-Email no formato inválido
-    [Tags]    inv
-
-    ${account}    Create Dictionary
-    ...            name=Isaac Douglas
-    ...            email=mail2mail.com
-    ...            cpf=60521415063
-
-    Start session
-    Submit signup form    ${account}
-    Notice should be    Oops! O email informado é inválido
-
-Cpf no formato inválido
-    [Tags]    inv
-
-    ${account}    Create Dictionary
-    ...            name=Isaac Douglas
-    ...            email=mail@mail.com
-    ...            cpf=12345678912
-
-    Start session
-    Submit signup form    ${account}
-    Notice should be    Oops! O CPF informado é inválido
+    ${EMPTY}        azeez@mail.com        60521415063        Por favor informe o seu nome completo
+    Azeez Tests     ${EMPTY}              60521415063        Por favor, informe o seu melhor e-mail
+    Azeez Tests     azeez@mail.com        ${EMPTY}           Por favor, informe o seu CPF
+    Azeez Tests     mail2mail.com         60521415063        Oops! O email informado é inválido
+    Azeez Tests     mail@mail.com         12345678912        Oops! O CPF informado é inválido
 
 *** Keywords ***
-Start session
 
-    New Browser    browser=chromium    headless=false
-    New Page    http://localhost:3000/ 
+Attempt signup    
+    [Arguments]        ${name}    ${email}    ${cpf}    ${output_message}
 
-Submit signup form
-    [Arguments]    ${account}
-    
-    Get Text    css=#signup h2
-    ...    equal
-    ...    Faça seu cadastro e venha para a Smartbit!
+    ${account}    Create Dictionary
+    ...            name=${name}
+    ...            email=${email}
+    ...            cpf=${cpf}
 
-    Fill Text    id=name        ${account}[name]
-    Fill Text    id=email       ${account}[email]
-    Fill Text    id=cpf         ${account}[cpf]
-
-    Click    css=button >> text=Cadastrar
-
-Notice should be
-    [Arguments]    ${target}
-
-    ${element}    Set Variable    css=#signup .notice   
-
-    Wait For Elements State
-    ...    ${element}
-    ...    visible    5
-
-    Get Text    
-    ...    ${element}
-    ...    equal    ${target}
-    
+    Submit signup form    ${account}
+    Notice should be    ${output_message}
