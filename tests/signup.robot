@@ -21,7 +21,6 @@ Deve iniciar o cadastro do cliente
     Submit signup form    ${account}
     Verify welcome message
 
-
 Tentativa de pré-cadastro
     [Template]    Attempt signup
 
