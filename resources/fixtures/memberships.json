@@ -1,0 +1,32 @@
+{
+    "create": {
+        "account": {
+            "name": "Paul Walker",
+            "email": "paulwalker@mail.com",
+            "cpf": "20456686061"
+        },
+        "plan": "Plano Black",
+        "credit_card": {
+            "number": "4242424242424242",
+            "holder": "Paul Walker",
+            "month": "10",
+            "year": "2030",
+            "cvv": "123"
+        }
+    },
+    "duplicate": {
+        "account": {
+            "name": "Brian OConner",
+            "email": "brian@mail.com",
+            "cpf": "38270122017"
+        },
+        "plan": "Plano Black",
+        "credit_card": {
+            "number": "4000056655665556",
+            "holder": "Brian O'Conner",
+            "month": "10",
+            "year": "2030",
+            "cvv": "123"
+        }
+    }
+}

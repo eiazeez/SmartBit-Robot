@@ -9,9 +9,16 @@ Library    Browser
 Toast should be
     [Arguments]    ${expected_text}
 
-    Wait For Elements State      css=.Toastify__toast-body        visible    5
+    ${element}    Set Variable    .Toastify__toast-body  
 
-    Get Text    css=.Toastify__toast-body    
+    Wait For Elements State    css=${element}    visible    5
+
+    Get Text    css=${element} 
     ...    equal
     ...    ${expected_text}
+    
+    Take Screenshot        css=${element} 
 
+Close Toast
+    
+    Click    css=button[class*="Toastify__close-button"]
