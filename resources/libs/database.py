@@ -1,10 +1,10 @@
 import psycopg2
 
 db_conn = """
-        host='babar.db.elephantsql.com'
-        dbname='hroqxadc'
-        user='hroqxadc'
-        password='5us_1lmQnpJcC0d8FPyG0qba4zp2ranz'
+        host='localhost'
+        dbname='smartbit'
+        user='postgres'
+        password='QAx@123'
     """
 
 def execute(query):
@@ -14,6 +14,30 @@ def execute(query):
     conn.commit()
     conn.close()
 
+def insert_membership(data):
+
+    account = data["account"]
+    plan = data["plan"]
+    credit_card = data["credit_card"]["number"][-4]
+
+    query = f"""
+        BEGIN;
+
+        DELETE FROM accounts
+        WHERE email = '{account["email"]}';
+
+        WITH new_account AS (
+            INSERT INTO accounts (name, email, cpf)
+            VALUES ('{account["name"]}', '{account["email"]}', '{account["cpf"]}')
+            RETURNING id
+        )
+
+        INSERT INTO memberships (account_id, plan_id, credit_card, price, status)
+        SELECT id, {plan["id"]}, {credit_card}, {plan["price"]}, true
+        FROM new_account
+
+        COMMIT;
+    """
 
 def insert_account(account):
     query = f"""

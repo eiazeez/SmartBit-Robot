@@ -27,16 +27,12 @@ Não deve realizar adesão duplicada
 
     ${data}    Get Json fixture    memberships    duplicate
 
-    Delete Account By Email    ${data}[account][email]
-    Insert Account             ${data}[account]
-
+    Insert Membership        ${data}
     SignIn Admin
 
     Go to Memberships
     Create new membership    ${data}
-    Close Toast
-    Create new membership    ${data}
-
+    
     Toast should be    O usuário já possui matrícula.
 
     
