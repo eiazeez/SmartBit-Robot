@@ -11,7 +11,7 @@ Go to login page
 Submit login form
     [Arguments]        ${email}        ${pass}
 
-    Fill Text    css=input[name=email]         ${email}
+    Fill Text    css=input[class=email]         ${email}
     Fill Text    css=input[type="password"]    ${pass}
 
     Click        css=button[type="submit"]
