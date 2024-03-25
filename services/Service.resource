@@ -21,7 +21,7 @@ Set user token
 Get account by name
     [Arguments]    ${name}
 
-    ${headers}        Create Dictionary        Authorization=${token}
+    ${headers}        Create Dictionary        Authorization=${token}    # robotcode: ignore
     ${params}         Create Dictionary        name=${name}  
 
     ${resp}    GET
