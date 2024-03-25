@@ -1,21 +1,22 @@
 *** Settings ***
 Documentation            Arquivo principal do projeto Robot
 
-Library                  libs/Account.py
+Library                  ../../libs/Account.py
+Library                  ../../libs/Database.py
+
 Library                  Browser
-Library                  libs/Database.py
 Library                  JSONLibrary
 
-Resource        pages/Landing.resource
-Resource        pages/Welcome.resource
-Resource        pages/Login.resource
-Resource        pages/Accounts.resource
-Resource        pages/Memberships.resource
+Resource                 pages/Landing.resource
+Resource                 pages/Welcome.resource
+Resource                 pages/Login.resource
+Resource                 pages/Accounts.resource
+Resource                 pages/Memberships.resource
 
-Resource        pages/components/Toast.resource
-Resource        pages/components/BoxNotice.resource
-Resource        pages/components/Navbar.resource
-Resource        pages/components/Modal.resource
+Resource                 pages/components/Toast.resource
+Resource                 pages/components/BoxNotice.resource
+Resource                 pages/components/Navbar.resource
+Resource                 pages/components/Modal.resource
 
 *** Variables ***
 

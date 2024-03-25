@@ -7,15 +7,20 @@ Test Setup           Start session
 Test Teardown        Finish session
 
 *** Test Cases ***
-Deve logar com cpf e IP
+Deve logar com IP e CPF
 
-    Input Text        xpath=//android.widget.EditText[@resource-id="ipAddress"]    192.168.3.7
-    Input Text        xpath=//android.widget.EditText[@resource-id="cpf"]          00000014141
+    ${data}        Get Json fixture    login
+    Insert Membership        ${data}
 
-    Click Element     xpath=//android.view.ViewGroup[@resource-id="btnLogin"]
+    Signin with document     ${data}[account][cpf]
+    User is logged in
 
-    Wait Until Element Is Visible    
-    ...    xpath=//android.widget.TextView[@resource-id="myAccountTitle"]
-    ...    10
-    
-    Element Text Should Be    xpath=//android.widget.TextView[@resource-id="myAccountTitle"]    Sua transformação começa aqui!
+Não deve logar com CPF não cadastrado
+
+    Signin with document    46104756000
+    Popup text should be    Acesso não autorizado! Entre em contato com a central de atendimento
+
+Não deve logar com CPF inválido
+
+    Signin with document    4610475600
+    Popup text should be    CPF inválido, tente novamente

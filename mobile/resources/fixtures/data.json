@@ -1,0 +1,42 @@
+{
+    "login": {
+        "account": {
+            "name": "Isaac Douglas",
+            "email": "isaacdouglas@mail.com",
+            "cpf": "73651019039"
+        },
+        "plan": {
+            "name": "Plano Black",
+            "id": 2,
+            "price": 79.99
+        },
+        "credit_card": {
+            "number": "4242424242424242",
+            "holder": "Isaac Douglas",
+            "month": "10",
+            "year": "2030",
+            "cvv": "123"
+        }
+    },
+    "update": {
+        "account": {
+            "name": "Dom Toretto",
+            "email": "toretto@mail.com",
+            "cpf": "77757687039",
+            "weight": 80,
+            "height": 170
+        },
+        "plan": {
+            "name": "Plano Black",
+            "id": 2,
+            "price": 79.99
+        },
+        "credit_card": {
+            "number": "4242424242424242",
+            "holder": "Dom Toretto",
+            "month": "10",
+            "year": "2030",
+            "cvv": "123"
+        }
+    }
+}
