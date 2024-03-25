@@ -1,6 +1,8 @@
 *** Settings ***
 Documentation            Arquivo principal do projeto Robot
 
+Variables                Env.py
+
 Library                  ../../libs/Account.py
 Library                  ../../libs/Database.py
 
@@ -25,8 +27,8 @@ ${ADMIN_PASS}     pwd123
 
 *** Keywords ***
 Start session
-    New Browser    browser=chromium    headless=false
-    New Page    http://localhost:3000/ 
+    New Browser    browser=${BROWSER}    headless=${HEADLESS}    # robotcode: ignore
+    New Page       ${BASE_URL}    # robotcode: ignore
 
 Get Json fixture
     [Arguments]        ${file_name}    ${scenario}
@@ -35,7 +37,7 @@ Get Json fixture
     ...    ${EXECDIR}/resources/fixtures/${file_name}.json
     ...    encoding=utf-8
     
-    [RETURN]    ${data}[${scenario}]
+    [RETURN]    ${data}[${scenario}]    # robotcode: ignore
 
 SignIn Admin
 
